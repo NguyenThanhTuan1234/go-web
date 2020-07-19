@@ -50,7 +50,11 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 
 		u := models.NewUser(un, bs, f, l, role)
 		dbUsers[un] = u
-
+		_, err = db.Exec("INSERT INTO test1 (username, password, first, last, role) VALUES ($1, $2, $3, $4, $5)", un, string(bs), f, l, role)
+		if err != nil {
+			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+			return
+		}
 		// redirect
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return

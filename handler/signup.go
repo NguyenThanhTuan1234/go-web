@@ -14,7 +14,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-	var u models.User
+	// var u models.User
 	// process form submission
 	if r.Method == http.MethodPost {
 
@@ -47,7 +47,8 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		u = models.User{un, bs, f, l, role}
+
+		u := models.NewUser(un, bs, f, l, role)
 		dbUsers[un] = u
 
 		// redirect

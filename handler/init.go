@@ -19,7 +19,8 @@ const (
 
 var db *sql.DB
 var tpl *template.Template
-var dbUsers = map[string]models.User{}       // user ID, user
+
+// var dbUsers = map[string]models.User{}       // user ID, user
 var dbSessions = map[string]models.Session{} // session ID, user ID
 var dbSessionsCleaned time.Time
 

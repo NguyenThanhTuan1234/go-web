@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	http.Handle("/resources/", http.StripPrefix("/resources/", http.FileServer(http.Dir("resources/"))))
 	http.HandleFunc("/", handler.Index)
 	http.HandleFunc("/bar", handler.Bar)
 	http.HandleFunc("/signup", handler.Signup)

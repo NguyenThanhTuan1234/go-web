@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"go-web/models"
 	"net/http"
 	"time"
@@ -26,7 +27,24 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		role := r.FormValue("role")
 
 		// username taken?
-		if _, ok := dbUsers[un]; ok {
+		// if _, ok := dbUsers[un]; ok {
+		// 	http.Error(w, "Username already taken", http.StatusForbidden)
+		// 	return
+		// }
+		// username taken ?
+		rows, err := db.Query("SELECT username FROM test1 WHERE username = $1", un)
+		if err != nil {
+			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
+			return
+		}
+		var u models.User
+		for rows.Next() {
+			err := rows.Scan(&u.UserName)
+			if err != nil {
+				panic(err)
+			}
+		}
+		if u.UserName != "" {
 			http.Error(w, "Username already taken", http.StatusForbidden)
 			return
 		}
@@ -47,10 +65,15 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
+		fmt.Println(string(bs))
+		// u := models.NewUser(un, bs, f, l, role)
+		// dbUsers[un] = u
 
-		u := models.NewUser(un, bs, f, l, role)
-		dbUsers[un] = u
-
+		_, err = db.Exec("INSERT INTO test1 (username, password, first, last, role) VALUES ($1, $2, $3, $4, $5)", un, string(bs), f, l, role)
+		if err != nil {
+			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+			return
+		}
 		// redirect
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return

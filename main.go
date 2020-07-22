@@ -12,6 +12,10 @@ func main() {
 	http.HandleFunc("/signup", handler.Signup)
 	http.HandleFunc("/login", handler.Login)
 	http.HandleFunc("/logout", handler.Logout)
+	http.HandleFunc("/blog", handler.Blog)
+	http.HandleFunc("/work", handler.Work)
+	http.HandleFunc("/contact", handler.Contact)
+	http.HandleFunc("/services", handler.Services)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	http.ListenAndServe(":8080", nil)
 }

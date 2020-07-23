@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"go-web/models"
 	"net/http"
 	"time"
@@ -65,7 +64,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(string(bs))
 		// u := models.NewUser(un, bs, f, l, role)
 		// dbUsers[un] = u
 

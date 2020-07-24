@@ -1,8 +1,8 @@
-package client
+package gateway
 
 import (
 	"database/sql"
-	"go-web/models"
+	"go-web/entity/repository"
 )
 
 type RDBSpecific interface {
@@ -19,8 +19,7 @@ func (s *rdbSpecific) GetDriver() string  { return s.driver }
 func (s *rdbSpecific) GetSources() string { return s.sources }
 
 type RDBClient interface {
-	GetUser(string) (*models.User, error)
-	CreateUser(string, string, string, string, []byte) error
+	repository.PostgresRepository
 }
 
 type rdbClient struct {

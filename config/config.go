@@ -1,11 +1,11 @@
 package config
 
 import (
-	"go-web/adapter/gateway/client"
+	"go-web/adapter/gateway"
 )
 
 type Config interface {
-	GetPostgres() client.PostgresConfig
+	GetPostgres() gateway.PostgresConfig
 }
 
 var conf Config
@@ -18,6 +18,6 @@ type config struct {
 	Postgres *postgresConfig `json:"postgres"`
 }
 
-func (c *config) GetPostgres() client.PostgresConfig {
+func (c *config) GetPostgres() gateway.PostgresConfig {
 	return c.Postgres
 }

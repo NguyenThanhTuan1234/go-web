@@ -18,7 +18,7 @@ type rdbSpecific struct {
 func (s *rdbSpecific) GetDriver() string  { return s.driver }
 func (s *rdbSpecific) GetSources() string { return s.sources }
 
-type RDBClient interface {
+type RDBRepository interface {
 	repository.PostgresRepository
 }
 
@@ -26,7 +26,7 @@ type rdbClient struct {
 	db *sql.DB
 }
 
-func NewRDBClient(config PostgresConfig) (RDBClient, error) {
+func NewRDBRepository(config PostgresConfig) (RDBRepository, error) {
 	specific := NewPostgresSpecific(config)
 	db, err := sql.Open(specific.GetDriver(), specific.GetSources())
 	if err != nil {

@@ -20,8 +20,8 @@ const (
 var db *sql.DB
 var tpl *template.Template
 
-// var dbUsers = map[string]models.User{}       // user ID, user
-var dbSessions = map[string]models.Session{} // session ID, user ID
+// var dbUsers = map[string]models.User{}       // username, user
+var dbSessions = map[string]models.Session{} // session ID, username
 var dbSessionsCleaned time.Time
 
 const sessionLength int = 600

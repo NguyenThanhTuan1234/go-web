@@ -1,6 +1,8 @@
 package gateway
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type PostgresConfig interface {
 	GetPort() int

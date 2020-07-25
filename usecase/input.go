@@ -2,6 +2,10 @@ package usecase
 
 import "net/http"
 
-type ValueInput interface {
-	GetFormValue(http.ResponseWriter, *http.Request, string) string
+type FormInput interface {
+	GetFormValue(http.ResponseWriter, *http.Request) (string, error)
+}
+
+type ParamInput interface {
+	ReadParam() (string, error)
 }

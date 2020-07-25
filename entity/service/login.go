@@ -1,5 +1,7 @@
 package service
 
+import "net/http"
+
 type LoginService interface {
-	CreateLoginPage() error
+	CreateLoginPage(w http.ResponseWriter, r *http.Request) error
 }

@@ -9,11 +9,11 @@ type templateClient struct {
 	tpl *template.Template
 }
 
-type TemplateClient interface {
+type TemplateRepository interface {
 	repository.HandlerRepository
 }
 
-func NewTemplateClient() TemplateClient {
+func NewTemplateRepository() TemplateRepository {
 	tpl := template.Must(template.ParseGlob("public/*"))
 	return &templateClient{
 		tpl: tpl,

@@ -14,6 +14,7 @@ type loginUsecase struct {
 	formIn2      FormInput
 	postgresRepo repository.PostgresRepository
 	bcryptRepo   repository.BcryptRepository
+	param        ParamInput
 	sessionRepo  repository.SessionRepository
 	handlerRepo  repository.HandlerRepository
 }
@@ -23,6 +24,7 @@ func NewLoginUsecase(
 	formIn2 FormInput,
 	postgresRepo repository.PostgresRepository,
 	bcryptRepo repository.BcryptRepository,
+	param ParamInput,
 	sessionRepo repository.SessionRepository,
 	handlerRepo repository.HandlerRepository,
 ) LoginUsecase {
@@ -31,6 +33,7 @@ func NewLoginUsecase(
 		formIn2:      formIn2,
 		postgresRepo: postgresRepo,
 		bcryptRepo:   bcryptRepo,
+		param:        param,
 		sessionRepo:  sessionRepo,
 		handlerRepo:  handlerRepo,
 	}

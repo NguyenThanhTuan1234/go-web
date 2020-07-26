@@ -22,8 +22,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 	bcryptRepo := gateway.NewBcrypt()
 	sessionRepo := gateway.NewSessionClient()
+	sessionName := &controller.ParamControllerPreset{
+		Param: "session",
+	}
 	handlerRepo := gateway.NewTemplateRepository()
-	use := usecase.NewLoginUsecase(formIn1, formIn2, postgresRepo, bcryptRepo, sessionRepo, handlerRepo)
+	use := usecase.NewLoginUsecase(formIn1, formIn2, postgresRepo, bcryptRepo, sessionName, sessionRepo, handlerRepo)
 	err1 := use.CreateLoginPage(w, r)
 	if err1 != nil {
 		panic(err)

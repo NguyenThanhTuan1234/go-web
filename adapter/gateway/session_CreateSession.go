@@ -1,7 +1,6 @@
 package gateway
 
 import (
-	"go-web/entity/repository"
 	"go-web/models"
 	"net/http"
 
@@ -11,16 +10,6 @@ import (
 const sessionLength int = 600
 
 var dbSessions = map[string]*models.Session{}
-
-type sessionRepository struct{}
-
-type SessionRepository interface {
-	repository.SessionRepository
-}
-
-func NewSessionClient() SessionRepository {
-	return &sessionRepository{}
-}
 
 var session *models.Session
 

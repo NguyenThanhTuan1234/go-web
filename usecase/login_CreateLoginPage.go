@@ -18,15 +18,19 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		}
 		err1 := l.bcryptRepo.ComparePassword(user.GetPassWord(), password)
 		if err1 != nil {
-			return err
+			return err1
 		}
-		err2 := l.sessionRepo.CreateSession(w, r, "session")
-		if err != nil {
+		sessionname, err2 := l.param.ReadParam()
+		if err2 != nil {
 			return err2
 		}
-		err3 := l.handlerRepo.LogIn(w, r)
-		if err != nil {
+		err3 := l.sessionRepo.CreateSession(w, r, sessionname)
+		if err3 != nil {
 			return err3
+		}
+		err4 := l.handlerRepo.LogIn(w, r)
+		if err4 != nil {
+			return err4
 		}
 	}
 	return nil

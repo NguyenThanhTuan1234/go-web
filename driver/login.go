@@ -16,7 +16,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	formIn2 := &controller.FormControllerPreset{
 		Value: "password",
 	}
-	postgresRepo, err := gateway.NewRDBRepository(conf.GetPostgres())
+	rdbclient, err := gateway.NewRDBClient(conf.GetPostgres())
+	if err != nil {
+		panic(err)
+	}
+	postgresRepo := gateway.NewPostgresRepository(rdbclient)
 	if err != nil {
 		panic(err)
 	}

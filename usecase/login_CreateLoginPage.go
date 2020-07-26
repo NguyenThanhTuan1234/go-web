@@ -28,10 +28,10 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err3 != nil {
 			return err3
 		}
-		err4 := l.handlerRepo.LogIn(w, r)
-		if err4 != nil {
-			return err4
-		}
+	}
+	err4 := l.handlerRepo.LogIn(w, r)
+	if err4 != nil {
+		return err4
 	}
 	return nil
 }

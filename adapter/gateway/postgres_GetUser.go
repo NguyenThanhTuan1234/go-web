@@ -2,10 +2,10 @@ package gateway
 
 import "go-web/models"
 
-func (r *rdbClient) GetUser(un string) (*models.User, error) {
-	var u *models.User
+func (p *postgresRepository) GetUser(un string) (*models.User, error) {
+	var u models.User
 
-	rows, err := r.db.Query("SELECT username, password, first, last, role FROM test1 WHERE username = $1", un)
+	rows, err := p.client.db.Query("SELECT username, password, first, last, role FROM test1 WHERE username = $1", un)
 	if err != nil {
 		return nil, err
 	}
@@ -15,5 +15,5 @@ func (r *rdbClient) GetUser(un string) (*models.User, error) {
 			panic(err)
 		}
 	}
-	return u, nil
+	return &u, nil
 }

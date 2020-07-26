@@ -3,35 +3,39 @@ package gateway
 import (
 	"database/sql"
 	"fmt"
-	"go-web/entity/repository"
+
+	_ "github.com/lib/pq"
 )
 
 type RDBSpecific interface {
 	GetDriver() string
-	GetSources() string
+	GetSource() string
 }
 
 type rdbSpecific struct {
-	driver  string
-	sources string
+	driver string
+	source string
 }
 
-func (s *rdbSpecific) GetDriver() string  { return s.driver }
-func (s *rdbSpecific) GetSources() string { return s.sources }
+func (s *rdbSpecific) GetDriver() string { return s.driver }
+func (s *rdbSpecific) GetSource() string { return s.source }
 
-type RDBRepository interface {
-	repository.PostgresRepository
+func NewPostgresSpecific(c PostgresConfig) RDBSpecific {
+	return &rdbSpecific{
+		driver: "postgres",
+		source: fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s", c.GetUser(), c.GetPassword(), c.GetDatabaseName(), c.GetSSLMode()),
+	}
 }
 
 type rdbClient struct {
 	db *sql.DB
 }
 
-func NewRDBRepository(config PostgresConfig) (RDBRepository, error) {
+func NewRDBClient(config PostgresConfig) (*rdbClient, error) {
 	specific := NewPostgresSpecific(config)
 	fmt.Println(specific.GetDriver())
-	fmt.Println(specific.GetSources())
-	db, err := sql.Open(specific.GetDriver(), specific.GetSources())
+	fmt.Println(specific.GetSource())
+	db, err := sql.Open(specific.GetDriver(), specific.GetSource())
 	if err != nil {
 		return nil, err
 	}
@@ -39,12 +43,4 @@ func NewRDBRepository(config PostgresConfig) (RDBRepository, error) {
 	return &rdbClient{
 		db: db,
 	}, nil
-}
-
-func NewPostgresSpecific(c PostgresConfig) RDBSpecific {
-	return &rdbSpecific{
-		driver: "postgres",
-		sources: fmt.Sprintf("port=%d user=%s password=%s dbname=%s sslmode=%s",
-			c.GetPort(), c.GetUser(), c.GetPassword(), c.GetDatabaseName(), c.GetSSLMode()),
-	}
 }

@@ -1,9 +1,8 @@
 {
     "postgres": {
-        "port": 5432,
         "user": "postgres",
         "password": "postgres",
-        "database_name": "test1",
-        "ssl_mode": "disable"
+        "databasename": "login-golang",
+        "sslmode": "disable"
     }
 }

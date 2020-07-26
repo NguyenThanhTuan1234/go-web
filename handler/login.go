@@ -14,7 +14,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-
+	tpl.ExecuteTemplate(w, "login.html", nil)
 	// process form submission
 	if r.Method == http.MethodPost {
 		un := r.FormValue("username")
@@ -55,5 +55,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	showSessions()
-	tpl.ExecuteTemplate(w, "login.html", nil)
+
 }

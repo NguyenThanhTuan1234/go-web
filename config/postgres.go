@@ -1,15 +1,10 @@
 package config
 
 type postgresConfig struct {
-	Port         int    `json: "port"`
 	User         string `json: "user"`
 	Password     string `json: "password"`
-	DatabaseName string `json:"database_name"`
-	SSLMode      string `json:"ssl_mode"`
-}
-
-func (c *postgresConfig) GetPort() int {
-	return c.Port
+	DatabaseName string `json:"databasename"`
+	SSLMode      string `json:"sslmode"`
 }
 
 func (c *postgresConfig) GetUser() string {

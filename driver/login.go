@@ -1,4 +1,4 @@
-package main
+package driver
 
 import (
 	"go-web/adapter/controller"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func login(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request) {
 	conf := config.GetConfig()
 	formIn1 := &controller.FormControllerPreset{
 		Value: "username",

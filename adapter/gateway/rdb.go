@@ -2,6 +2,7 @@ package gateway
 
 import (
 	"database/sql"
+	"fmt"
 	"go-web/entity/repository"
 )
 
@@ -28,11 +29,22 @@ type rdbClient struct {
 
 func NewRDBRepository(config PostgresConfig) (RDBRepository, error) {
 	specific := NewPostgresSpecific(config)
+	fmt.Println(specific.GetDriver())
+	fmt.Println(specific.GetSources())
 	db, err := sql.Open(specific.GetDriver(), specific.GetSources())
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("You connected to your database.")
 	return &rdbClient{
 		db: db,
 	}, nil
+}
+
+func NewPostgresSpecific(c PostgresConfig) RDBSpecific {
+	return &rdbSpecific{
+		driver: "postgres",
+		sources: fmt.Sprintf("port=%d user=%s password=%s dbname=%s sslmode=%s",
+			c.GetPort(), c.GetUser(), c.GetPassword(), c.GetDatabaseName(), c.GetSSLMode()),
+	}
 }

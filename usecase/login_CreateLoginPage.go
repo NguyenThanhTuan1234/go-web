@@ -1,8 +1,20 @@
 package usecase
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) error {
+	sessionname, err2 := l.param.ReadParam()
+	if err2 != nil {
+		return err2
+	}
+	fmt.Println(sessionname)
+	if l.sessionRepo.CheckSessionIfExist(w, r, sessionname) == true {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return nil
+	}
 	if r.Method == http.MethodPost {
 		username, err := l.formIn1.GetFormValue(w, r)
 		if err != nil {
@@ -24,10 +36,11 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err2 != nil {
 			return err2
 		}
-		err3 := l.sessionRepo.CreateSession(w, r, sessionname)
+		err3 := l.sessionRepo.CreateSession(w, r, sessionname, username)
 		if err3 != nil {
 			return err3
 		}
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 	err4 := l.handlerRepo.LogIn(w, r)
 	if err4 != nil {

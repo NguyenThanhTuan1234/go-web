@@ -26,5 +26,6 @@ func main() {
 	http.HandleFunc("/login", driver.Login)
 	http.HandleFunc("/signup", driver.SignUp)
 	http.HandleFunc("/logout", driver.LogOut)
+	http.HandleFunc("/blog", driver.Blog)
 	http.ListenAndServe(":8080", nil)
 }

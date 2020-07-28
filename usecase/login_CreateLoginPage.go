@@ -6,11 +6,10 @@ import (
 )
 
 func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) error {
-	sessionname, err2 := l.param.ReadParam()
-	if err2 != nil {
-		return err2
+	sessionname, err := l.param.ReadParam()
+	if err != nil {
+		return err
 	}
-	fmt.Println(sessionname)
 	if l.sessionRepo.CheckSessionIfExist(w, r, sessionname) == true {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return nil
@@ -35,9 +34,9 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 			http.Error(w, "Username or password do not match", http.StatusForbidden)
 			return nil
 		}
-		sessionname, err2 := l.param.ReadParam()
-		if err2 != nil {
-			return err2
+		sessionname, err := l.param.ReadParam()
+		if err != nil {
+			return err
 		}
 		err3 := l.sessionRepo.CreateSession(w, r, sessionname, username)
 		if err3 != nil {

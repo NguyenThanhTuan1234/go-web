@@ -2,10 +2,10 @@ package gateway
 
 import "golang.org/x/crypto/bcrypt"
 
-func (b *bcyptClient) GenerateHashPassword(password string) ([]byte, error) {
+func (b *bcyptClient) GenerateHashPassword(password string) (string, error) {
 	bs, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return bs, nil
+	return string(bs), nil
 }

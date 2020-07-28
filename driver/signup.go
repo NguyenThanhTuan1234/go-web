@@ -8,13 +8,22 @@ import (
 	"net/http"
 )
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func SignUp(w http.ResponseWriter, r *http.Request) {
 	conf := config.GetConfig()
 	formIn1 := &controller.FormControllerPreset{
 		Value: "username",
 	}
 	formIn2 := &controller.FormControllerPreset{
 		Value: "password",
+	}
+	formIn3 := &controller.FormControllerPreset{
+		Value: "firstname",
+	}
+	formIn4 := &controller.FormControllerPreset{
+		Value: "lastname",
+	}
+	formIn5 := &controller.FormControllerPreset{
+		Value: "role",
 	}
 	rdbclient, err := gateway.NewRDBClient(conf.GetPostgres())
 	if err != nil {
@@ -23,12 +32,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	postgresRepo := gateway.NewPostgresRepository(rdbclient)
 	bcryptRepo := gateway.NewBcrypt()
 	sessionRepo := gateway.NewSessionClient()
-	sessionName := &controller.ParamControllerPreset{
+	sessionname := &controller.ParamControllerPreset{
 		Param: "session",
 	}
 	handlerRepo := gateway.NewTemplateRepository()
-	use := usecase.NewLoginUsecase(formIn1, formIn2, postgresRepo, bcryptRepo, sessionName, sessionRepo, handlerRepo)
-	err1 := use.CreateLoginPage(w, r)
+	use := usecase.NewSignUpUsecase(formIn1, formIn2, formIn3, formIn4, formIn5, postgresRepo, bcryptRepo, sessionname, sessionRepo, handlerRepo)
+	err1 := use.CreateSignUpPage(w, r)
 	if err1 != nil {
 		panic(err)
 	}

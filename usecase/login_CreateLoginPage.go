@@ -26,11 +26,14 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		}
 		user, err := l.postgresRepo.GetUser(username)
 		if err != nil {
-			return err
+			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
+			return nil
 		}
 		err1 := l.bcryptRepo.ComparePassword(user.GetPassWord(), password)
 		if err1 != nil {
-			return err1
+			fmt.Println("test")
+			http.Error(w, "Username or password do not match", http.StatusForbidden)
+			return nil
 		}
 		sessionname, err2 := l.param.ReadParam()
 		if err2 != nil {

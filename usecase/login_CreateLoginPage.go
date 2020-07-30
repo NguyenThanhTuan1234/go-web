@@ -16,6 +16,7 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		return nil
 	}
 	var user *models.User
+	var err5 error
 	if r.Method == http.MethodPost {
 		username, err := l.formIn1.GetFormValue(w, r)
 		if err != nil {
@@ -25,11 +26,11 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err != nil {
 			return err
 		}
-		user, _ = l.postgresRepo.GetUser(username)
-		// if err != nil {
-		// 	http.Error(w, "Username and/or password do not match", http.StatusForbidden)
-		// 	return nil
-		// }
+		user, err5 = l.postgresRepo.GetUser(username)
+		if err5 != nil {
+			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
+			return nil
+		}
 		err1 := l.bcryptRepo.ComparePassword(user.GetPassWord(), password)
 		if err1 != nil {
 			fmt.Println("test")

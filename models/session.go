@@ -5,6 +5,7 @@ import (
 )
 
 type Session struct {
-	Un           string
+	Id int
+	// Un           string
 	LastActivity time.Time
 }

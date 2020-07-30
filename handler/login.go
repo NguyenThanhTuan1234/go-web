@@ -44,7 +44,7 @@ func LogIn(w http.ResponseWriter, r *http.Request) {
 		}
 		c.MaxAge = sessionLength
 		http.SetCookie(w, c)
-		dbSessions[c.Value] = models.Session{un, time.Now()}
+		dbSessions[c.Value] = models.Session{u.ID, time.Now()}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}

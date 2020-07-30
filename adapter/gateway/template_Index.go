@@ -1,9 +1,12 @@
 package gateway
 
-import "net/http"
+import (
+	"go-web/models"
+	"net/http"
+)
 
-func (t *templateClient) Index(w http.ResponseWriter, r *http.Request) error {
-	err := t.tpl.ExecuteTemplate(w, "index.html", nil)
+func (t *templateClient) Index(w http.ResponseWriter, r *http.Request, user models.User) error {
+	err := t.tpl.ExecuteTemplate(w, "index.html", user)
 	if err != nil {
 		return err
 	}

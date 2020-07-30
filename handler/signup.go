@@ -56,7 +56,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		}
 		c.MaxAge = sessionLength
 		http.SetCookie(w, c)
-		dbSessions[c.Value] = models.Session{un, time.Now()}
+		dbSessions[c.Value] = models.Session{u.ID, time.Now()}
 
 		// store user in dbUsers
 		bs, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.MinCost)

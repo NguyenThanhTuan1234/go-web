@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+	"go-web/models"
 	"net/http"
 )
 
@@ -14,6 +15,7 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return nil
 	}
+	var user *models.User
 	if r.Method == http.MethodPost {
 		username, err := l.formIn1.GetFormValue(w, r)
 		if err != nil {
@@ -23,11 +25,11 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err != nil {
 			return err
 		}
-		user, err := l.postgresRepo.GetUser(username)
-		if err != nil {
-			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
-			return nil
-		}
+		user, _ = l.postgresRepo.GetUser(username)
+		// if err != nil {
+		// 	http.Error(w, "Username and/or password do not match", http.StatusForbidden)
+		// 	return nil
+		// }
 		err1 := l.bcryptRepo.ComparePassword(user.GetPassWord(), password)
 		if err1 != nil {
 			fmt.Println("test")
@@ -38,15 +40,19 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err != nil {
 			return err
 		}
-		err3 := l.sessionRepo.CreateSession(w, r, sessionname, username)
+		err3 := l.sessionRepo.CreateSession(w, r, sessionname, user.GetId())
 		if err3 != nil {
 			return err3
 		}
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+
+		fmt.Println(user.UserName)
+		l.handlerRepo.Index(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
 	}
-	err4 := l.handlerRepo.LogIn(w, r)
-	if err4 != nil {
-		return err4
+	if user == nil {
+		err4 := l.handlerRepo.LogIn(w, r)
+		if err4 != nil {
+			return err4
+		}
 	}
 	return nil
 }

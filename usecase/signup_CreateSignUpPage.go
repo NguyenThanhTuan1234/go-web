@@ -44,7 +44,7 @@ func (s *signupUsecase) CreateSignUpPage(w http.ResponseWriter, r *http.Request)
 		if err != nil {
 			return err
 		}
-		err2 := s.sessionRepo.CreateSession(w, r, sessionname, username)
+		err2 := s.sessionRepo.CreateSession(w, r, sessionname, user.GetId())
 		if err != nil {
 			return err2
 		}

@@ -10,11 +10,25 @@ type AdminUsecase interface {
 }
 
 type adminUsecase struct {
-	handlerRepo repository.HandlerRepository
+	formIn1      FormInput
+	formIn2      FormInput
+	sessionRepo  repository.SessionRepository
+	postgresRepo repository.PostgresRepository
+	handlerRepo  repository.HandlerRepository
 }
 
-func NewAdminUsecase(handlerRepo repository.HandlerRepository) AdminUsecase {
+func NewAdminUsecase(
+	formIn1 FormInput,
+	formIn2 FormInput,
+	sessionRepo repository.SessionRepository,
+	postgresRepo repository.PostgresRepository,
+	handlerRepo repository.HandlerRepository,
+) AdminUsecase {
 	return &adminUsecase{
-		handlerRepo: handlerRepo,
+		formIn1:      formIn1,
+		formIn2:      formIn2,
+		sessionRepo:  sessionRepo,
+		postgresRepo: postgresRepo,
+		handlerRepo:  handlerRepo,
 	}
 }

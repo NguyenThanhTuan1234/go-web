@@ -45,7 +45,8 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err3 != nil {
 			return err3
 		}
-		l.handlerRepo.Admin(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
+		http.Redirect(w, r, "/admin", http.StatusSeeOther)
+		// l.handlerRepo.Admin(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
 		// fmt.Println(user.UserName)
 		// l.handlerRepo.Index(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
 	}

@@ -45,9 +45,9 @@ func (l *loginUsecase) CreateLoginPage(w http.ResponseWriter, r *http.Request) e
 		if err3 != nil {
 			return err3
 		}
-
-		fmt.Println(user.UserName)
-		l.handlerRepo.Index(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
+		l.handlerRepo.Admin(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
+		// fmt.Println(user.UserName)
+		// l.handlerRepo.Index(w, r, models.NewUser(user.ID, user.UserName, user.Password, user.First, user.Last, user.Role))
 	}
 	if user == nil {
 		err4 := l.handlerRepo.LogIn(w, r)

@@ -10,4 +10,5 @@ type HandlerRepository interface {
 	LogIn(http.ResponseWriter, *http.Request) error
 	SignUp(http.ResponseWriter, *http.Request) error
 	Blog(http.ResponseWriter, *http.Request) error
+	Admin(http.ResponseWriter, *http.Request, models.User) error
 }

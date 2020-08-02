@@ -1,11 +1,18 @@
 package usecase
 
-import "net/http"
+import (
+	"go-web/models"
+	"net/http"
+)
 
 func (u *blogUsecase) CreateBlogPage(w http.ResponseWriter, r *http.Request) error {
-	err := u.handlerRepo.Blog(w, r)
+	content, err := u.postgresRepo.GetContent()
 	if err != nil {
 		return err
+	}
+	err1 := u.handlerRepo.Blog(w, r, models.NewContent(content.Title, content.Content, content.Uid))
+	if err1 != nil {
+		return err1
 	}
 	return nil
 }

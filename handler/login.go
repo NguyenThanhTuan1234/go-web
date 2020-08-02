@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func LogIn(w http.ResponseWriter, r *http.Request) {
 	if AlreadyLoggedIn(w, r) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -19,12 +19,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		un := r.FormValue("username")
 		p := r.FormValue("password")
-		// is there a username ?
-		// u, ok := dbUsers[un]
-		// if !ok {
-		// 	http.Error(w, "Username and/or password do not match", http.StatusForbidden)
-		// 	return
-		// }
 		var u models.User
 		rows, err := db.Query("SELECT username, password, first, last, role FROM test1 WHERE username = $1", un)
 		if err != nil {
@@ -50,7 +44,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 		c.MaxAge = sessionLength
 		http.SetCookie(w, c)
-		dbSessions[c.Value] = models.Session{un, time.Now()}
+		dbSessions[c.Value] = models.Session{u.ID, time.Now()}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}

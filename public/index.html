@@ -134,7 +134,11 @@
                         <div class="about-desc">
                             <div class="owl-carousel3">
                                 <div class="item">
+                                    {{if .UserName}}
+                                    <h2><span>{{.UserName}}</span><span>Henderson</span></h2>
+                                    {{else}}
                                     <h2><span>Noah</span><span>Henderson</span></h2>
+                                    {{end}}
                                 </div>
                                 <div class="item">
                                     <h2><span>I'm</span><span>A Designer</span></h2>

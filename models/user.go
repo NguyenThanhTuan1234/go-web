@@ -1,11 +1,16 @@
 package models
 
 type User struct {
+	ID       int
 	UserName string
 	Password []byte
 	First    string
 	Last     string
 	Role     string
+}
+
+func (u *User) GetId() int {
+	return u.ID
 }
 
 func (u *User) GetUserName() string {
@@ -28,8 +33,9 @@ func (u *User) GetRole() string {
 	return u.Role
 }
 
-func NewUser(userName string, passWord []byte, first string, last string, role string) User {
+func NewUser(id int, userName string, passWord []byte, first string, last string, role string) User {
 	return User{
+		ID:       id,
 		UserName: userName,
 		Password: passWord,
 		First:    first,

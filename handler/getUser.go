@@ -27,7 +27,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) models.User {
 	if s, ok := dbSessions[c.Value]; ok {
 		s.LastActivity = time.Now()
 		dbSessions[c.Value] = s
-		rows, err := db.Query("SELECT username, password, first, last, role FROM test1 WHERE username = $1", s.Un)
+		rows, err := db.Query("SELECT username, password, first, last, role FROM test1 WHERE id = $1", s.Id)
 		if err != nil {
 			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
 		}

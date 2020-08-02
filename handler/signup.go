@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Signup(w http.ResponseWriter, r *http.Request) {
+func SignUp(w http.ResponseWriter, r *http.Request) {
 	if AlreadyLoggedIn(w, r) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -56,7 +56,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		}
 		c.MaxAge = sessionLength
 		http.SetCookie(w, c)
-		dbSessions[c.Value] = models.Session{un, time.Now()}
+		dbSessions[c.Value] = models.Session{u.ID, time.Now()}
 
 		// store user in dbUsers
 		bs, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.MinCost)

@@ -14,7 +14,7 @@ const sessionLength int = 600
 var session *models.Session
 var dbSessions = map[string]*models.Session{}
 
-func (c *sessionRepository) CreateSession(w http.ResponseWriter, r *http.Request, name string, un string) error {
+func (c *sessionRepository) CreateSession(w http.ResponseWriter, r *http.Request, name string, id int) error {
 
 	sID, err := uuid.NewV4()
 	fmt.Println(sID.String())
@@ -27,6 +27,7 @@ func (c *sessionRepository) CreateSession(w http.ResponseWriter, r *http.Request
 		MaxAge: sessionLength,
 	}
 	http.SetCookie(w, cookie)
-	dbSessions[cookie.Value] = &models.Session{un, time.Now()}
+	dbSessions[cookie.Value] = &models.Session{id, time.Now()}
+	fmt.Println(dbSessions[cookie.Value].Id)
 	return nil
 }

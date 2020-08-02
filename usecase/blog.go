@@ -10,13 +10,16 @@ type BlogUsecase interface {
 }
 
 type blogUsecase struct {
-	handlerRepo repository.HandlerRepository
+	postgresRepo repository.PostgresRepository
+	handlerRepo  repository.HandlerRepository
 }
 
 func NewBlogUsecase(
+	postgresRepo repository.PostgresRepository,
 	handlerRepo repository.HandlerRepository,
 ) BlogUsecase {
 	return &blogUsecase{
-		handlerRepo: handlerRepo,
+		postgresRepo: postgresRepo,
+		handlerRepo:  handlerRepo,
 	}
 }
